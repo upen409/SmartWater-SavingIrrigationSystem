@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Water-Saving Irrigation System</title>
+<style>
+:root { --green:#176b45; --green2:#e7f5ec; --ink:#18332a; --muted:#5d7168; --line:#d8e5dc; --white:#fff; --amber:#fff4d7; --red:#fde8e7; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:Arial, Helvetica, sans-serif; background:#f5f9f6; color:var(--ink); line-height:1.5; }
+header { background:linear-gradient(120deg,#145b3b,#21875a); color:white; padding:30px 18px; }
+header .wrap, main { max-width:960px; margin:auto; }
+header h1 { margin:0 0 8px; font-size:clamp(1.7rem,4vw,2.5rem); }
+header p { margin:0; max-width:700px; }
+main { padding:22px 16px 40px; }
+.notice { background:#fff4d7; border:1px solid #e8d18b; padding:12px 14px; border-radius:12px; margin-bottom:18px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; }
+.card { background:white; border:1px solid var(--line); border-radius:16px; padding:20px; box-shadow:0 3px 12px rgba(24,51,42,.04); }
+.card h2 { font-size:1.2rem; margin-top:0; }
+label { display:block; font-weight:bold; margin:12px 0 6px; }
+input[type=range] { width:100%; accent-color:var(--green); }
+.big-number { font-size:2.5rem; font-weight:700; color:var(--green); }
+button { background:var(--green); color:white; border:0; padding:12px 16px; border-radius:10px; font-weight:bold; cursor:pointer; margin:6px 6px 0 0; }
+button.secondary { background:#e8f2eb; color:var(--green); border:1px solid #c5dccd; }
+button:focus, input:focus { outline:3px solid #8fc8a5; outline-offset:2px; }
+.status { padding:14px; border-radius:12px; background:var(--green2); border:1px solid #b9dfc5; }
+.status.dry { background:var(--amber); border-color:#e8d18b; }
+.status.wet { background:#e5f1ff; border-color:#bdd7f4; }
+.status h3 { margin:0 0 5px; }
+.progress { height:14px; background:#e6eee8; border-radius:20px; overflow:hidden; margin:10px 0; }
+#bar { height:100%; width:45%; background:#27965f; transition:width .2s; }
+.small { color:var(--muted); font-size:.92rem; }
+ul { padding-left:22px; }
+footer { text-align:center; color:var(--muted); padding:18px; font-size:.9rem; }
+table { border-collapse:collapse; width:100%; margin-top:10px; }
+th,td { border:1px solid var(--line); padding:9px; text-align:left; }
+th { background:#eff6f1; }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>🌱 Smart Water-Saving Irrigation System</h1>
+    <p>A simple educational website that uses soil-moisture readings to recommend when a plant may need water.</p>
+  </div>
+</header>
+<main>
+  <div class="notice"><strong>Prototype note:</strong> This is a software simulation. The moisture value is entered by the user; no physical sensor or pump is connected. The threshold is an example for demonstration, not a rule for every plant or soil.</div>
+  <div class="grid">
+    <section class="card">
+      <h2>1. Enter soil moisture</h2>
+      <p class="small">Move the slider to simulate a reading from 0% (very dry) to 100% (very wet).</p>
+      <label for="moisture">Simulated soil moisture</label>
+      <input id="moisture" type="range" min="0" max="100" value="35">
+      <div class="big-number"><span id="moistureValue">35</span>%</div>
+      <div class="progress" aria-label="Moisture level"><div id="bar"></div></div>
+      <label for="threshold">Watering threshold</label>
+      <input id="threshold" type="range" min="20" max="60" value="35">
+      <p>Threshold: <strong><span id="thresholdValue">35</span>%</strong></p>
+      <button id="checkBtn">Check watering recommendation</button>
+      <button class="secondary" id="dryBtn">Try dry soil</button>
+      <button class="secondary" id="wetBtn">Try wet soil</button>
+    </section>
+    <section class="card">
+      <h2>2. Recommendation</h2>
+      <div id="status" class="status" role="status" aria-live="polite">
+        <h3 id="statusTitle">Check the reading</h3>
+        <p id="statusText">Choose a moisture value and press “Check watering recommendation”.</p>
+      </div>
+      <h3>How the decision works</h3>
+      <ul>
+        <li>If moisture is below the threshold, recommend checking whether watering is needed.</li>
+        <li>If moisture is at or above the threshold, recommend waiting and checking again later.</li>
+        <li>Always consider plant type, soil, weather, and the actual condition of the plant.</li>
+      </ul>
+      <p class="small">This website gives a recommendation only. It does not automatically water the plant.</p>
+    </section>
+  </div>
+  <section class="card" style="margin-top:16px">
+    <h2>3. Test log</h2>
+    <p class="small">Record each demonstration result for your project report. This table is temporary and resets when the page is refreshed. Use your own observations in the final report.</p>
+    <button id="logBtn">Add current test to log</button>
+    <button class="secondary" id="clearBtn">Clear log</button>
+    <table>
+      <thead><tr><th>Test</th><th>Moisture</th><th>Threshold</th><th>Expected recommendation</th></tr></thead>
+      <tbody id="logBody"><tr><td colspan="4">No tests logged yet.</td></tr></tbody>
+    </table>
+  </section>
+  <section class="card" style="margin-top:16px">
+    <h2>4. Project learning</h2>
+    <ul>
+      <li><strong>Problem:</strong> Unnecessary watering may waste water.</li>
+      <li><strong>Users:</strong> Home gardeners, school gardeners, and small-plant growers.</li>
+      <li><strong>SDG connection:</strong> SDG 6 — Clean Water and Sanitation; responsible water use supports water sustainability.</li>
+      <li><strong>Future upgrade:</strong> Connect a real moisture sensor and microcontroller, after safe adult supervision and testing.</li>
+    </ul>
+  </section>
+</main>
+<footer>Grade 9 Robotics & AI · Educational prototype · Demonstration data only</footer>
+<script>
+const moisture = document.getElementById('moisture');
+const threshold = document.getElementById('threshold');
+const moistureValue = document.getElementById('moistureValue');
+const thresholdValue = document.getElementById('thresholdValue');
+const bar = document.getElementById('bar');
+const statusBox = document.getElementById('status');
+const statusTitle = document.getElementById('statusTitle');
+const statusText = document.getElementById('statusText');
+const logBody = document.getElementById('logBody');
+let tests = [];
+
+function updateNumbers() {
+  const m = Number(moisture.value);
+  moistureValue.textContent = m;
+  thresholdValue.textContent = threshold.value;
+  bar.style.width = m + '%';
+  bar.style.background = m < Number(threshold.value) ? '#d39a24' : '#27965f';
+}
+function getRecommendation() {
+  const m = Number(moisture.value);
+  const t = Number(threshold.value);
+  if (m < t) {
+    return { title: 'Soil may be too dry', text: 'Check the plant and soil. Watering may be needed if this reading suits the plant’s requirements.', className: 'dry', recommendation: 'Check whether watering is needed' };
+  }
+  if (m > 75) {
+    return { title: 'Soil is very wet', text: 'Do not add water based on this reading alone. Check drainage and avoid waterlogging.', className: 'wet', recommendation: 'Wait; check drainage' };
+  }
+  return { title: 'Watering may not be needed yet', text: 'The reading is at or above the example threshold. Check the plant again later.', className: '', recommendation: 'Wait and recheck later' };
+}
+function check() {
+  updateNumbers();
+  const r = getRecommendation();
+  statusBox.className = 'status ' + r.className;
+  statusTitle.textContent = r.title;
+  statusText.textContent = r.text;
+}
+moisture.addEventListener('input', updateNumbers);
+threshold.addEventListener('input', () => { updateNumbers(); });
+document.getElementById('checkBtn').addEventListener('click', check);
+document.getElementById('dryBtn').addEventListener('click', () => { moisture.value = 15; check(); });
+document.getElementById('wetBtn').addEventListener('click', () => { moisture.value = 85; check(); });
+document.getElementById('logBtn').addEventListener('click', () => {
+  const r = getRecommendation();
+  tests.push({m:moisture.value, t:threshold.value, result:r.recommendation});
+  renderLog();
+});
+document.getElementById('clearBtn').addEventListener('click', () => { tests = []; renderLog(); });
+function renderLog() {
+  logBody.innerHTML = '';
+  if (!tests.length) {
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = 4; td.textContent = 'No tests logged yet.'; tr.appendChild(td); logBody.appendChild(tr); return;
+  }
+  tests.forEach((test, i) => {
+    const tr = document.createElement('tr');
+    [String(i+1), test.m+'%', test.t+'%', test.result].forEach(value => {
+      const td = document.createElement('td'); td.textContent = value; tr.appendChild(td);
+    });
+    logBody.appendChild(tr);
+  });
+}
+updateNumbers();
+</script>
+</body>
+</html>
